@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "framework": null,
+  "installCommand": "if ! command -v flutter >/dev/null 2>&1; then git clone https://github.com/flutter/flutter.git --depth 1 -b stable /tmp/flutter-sdk; fi; export PATH=\"/tmp/flutter-sdk/bin:$PATH\"; flutter config --enable-web; flutter pub get",
+  "buildCommand": "export PATH=\"/tmp/flutter-sdk/bin:$PATH\"; flutter build web --release",
+  "outputDirectory": "build/web",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+﻿Analyzing portfolio...                                          
+
+   info - Parameter 'key' could be a super parameter - lib\sections\about_section.dart:5:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\about_section.dart:33:57 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\sections\contact_section.dart:7:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\contact_section.dart:25:42 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\sections\contact_section.dart:87:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\contact_section.dart:122:61 - deprecated_member_use
+   info - 'translate' is deprecated and shouldn't be used. Use translateByVector3, translateByVector4, or translateByDouble instead - lib\sections\contact_section.dart:129:55 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\sections\hero_section.dart:10:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\hero_section.dart:33:44 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\hero_section.dart:60:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\hero_section.dart:67:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\hero_section.dart:102:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\hero_section.dart:118:79 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\hero_section.dart:149:63 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\sections\projects_section.dart:8:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\projects_section.dart:82:57 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\sections\projects_section.dart:140:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\projects_section.dart:179:61 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\projects_section.dart:186:43 - deprecated_member_use
+   info - 'translate' is deprecated and shouldn't be used. Use translateByVector3, translateByVector4, or translateByDouble instead - lib\sections\projects_section.dart:196:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\projects_section.dart:231:79 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\sections\skills_section.dart:6:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\skills_section.dart:43:57 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\sections\skills_section.dart:72:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\skills_section.dart:96:59 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\sections\skills_section.dart:103:41 - deprecated_member_use
+   info - 'translate' is deprecated and shouldn't be used. Use translateByVector3, translateByVector4, or translateByDouble instead - lib\sections\skills_section.dart:113:53 - deprecated_member_use
+   info - Parameter 'key' could be a super parameter - lib\widgets\navbar.dart:14:9 - use_super_parameters
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\navbar.dart:34:33 - deprecated_member_use
+
