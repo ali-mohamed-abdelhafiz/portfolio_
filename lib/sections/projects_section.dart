@@ -12,7 +12,7 @@ class ProjectsSection extends StatefulWidget {
 }
 
 class _ProjectsSectionState extends State<ProjectsSection> {
-  List<dynamic> _projects = [];
+  List<Map<String, dynamic>> _projects = [];
   bool _isLoading = true;
   String? _error;
 
@@ -23,28 +23,56 @@ class _ProjectsSectionState extends State<ProjectsSection> {
   }
 
   Future<void> _fetchProjects() async {
+    if (mounted) {
+      setState(() {
+        _isLoading = true;
+        _error = null;
+      });
+    }
+
     try {
-      final response = await http.get(
-        Uri.parse(
-          'https://api.github.com/users/ali-mohamed-abdelhafiz/repos?sort=updated',
-        ),
-      );
+      final response = await http
+          .get(
+            Uri.parse(
+              'https://api.github.com/users/AliMoo-space/repos?sort=updated',
+            ),
+            headers: const {
+              'Accept': 'application/vnd.github+json',
+              'User-Agent': 'flutter-portfolio-app',
+            },
+          )
+          .timeout(const Duration(seconds: 10));
+
       if (response.statusCode == 200) {
+        final decoded = json.decode(response.body);
+        if (decoded is! List) {
+          if (mounted) {
+            setState(() {
+              _error = 'Unexpected response from GitHub API.';
+              _isLoading = false;
+            });
+          }
+          return;
+        }
+
+        final projects = decoded
+            .whereType<Map<String, dynamic>>()
+            .where((p) => p['fork'] == false)
+            .take(6)
+            .toList();
+
         if (mounted) {
           setState(() {
-            _projects = json.decode(response.body);
-            // Filter out forks if desired, or just take top 6
-            _projects = _projects
-                .where((p) => p['fork'] == false)
-                .take(6)
-                .toList();
+            _projects = projects;
             _isLoading = false;
           });
         }
       } else {
         if (mounted) {
           setState(() {
-            _error = 'Failed to load projects';
+            _error =
+                _extractErrorMessage(response.body) ??
+                'Failed to load projects (HTTP ${response.statusCode}).';
             _isLoading = false;
           });
         }
@@ -56,6 +84,29 @@ class _ProjectsSectionState extends State<ProjectsSection> {
           _isLoading = false;
         });
       }
+    }
+  }
+
+  String? _extractErrorMessage(String body) {
+    try {
+      final decoded = json.decode(body);
+      if (decoded is Map<String, dynamic>) {
+        final message = decoded['message'];
+        if (message is String && message.isNotEmpty) {
+          return message;
+        }
+      }
+    } catch (_) {
+      // Ignore parse issues and fall back to generic text.
+    }
+    return null;
+  }
+
+  Future<void> _openAllProjects() async {
+    final uri = Uri.parse('https://github.com/AliMoo-space?tab=repositories');
+
+    if (!await launchUrl(uri, mode: LaunchMode.platformDefault)) {
+      debugPrint('Could not launch $uri');
     }
   }
 
@@ -124,7 +175,19 @@ class _ProjectsSectionState extends State<ProjectsSection> {
           if (_isLoading)
             const Center(child: CircularProgressIndicator())
           else if (_error != null)
-            Center(child: Text('Error: $_error'))
+            Center(
+              child: Column(
+                children: [
+                  Text('Error: $_error', textAlign: TextAlign.center),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: _fetchProjects,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Try Again'),
+                  ),
+                ],
+              ),
+            )
           else
             LayoutBuilder(
               builder: (context, constraints) {
@@ -156,16 +219,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
           const SizedBox(height: 48),
           Center(
             child: ElevatedButton.icon(
-              onPressed: () async {
-                final uri = Uri.parse(
-                  'https://github.com/ali-mohamed-abdelhafiz?tab=repositories',
-                );
-                try {
-                  await launchUrl(uri, mode: LaunchMode.externalApplication);
-                } catch (e) {
-                  debugPrint('Could not launch $uri');
-                }
-              },
+              onPressed: _openAllProjects,
               icon: const Icon(Icons.code),
               label: const Text('View All Projects on GitHub'),
               style: ElevatedButton.styleFrom(
@@ -183,7 +237,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 }
 
 class ProjectCard extends StatefulWidget {
-  final dynamic project;
+  final Map<String, dynamic> project;
 
   const ProjectCard({super.key, required this.project});
 
@@ -196,23 +250,26 @@ class _ProjectCardState extends State<ProjectCard> {
 
   Future<void> _launchURL(String url) async {
     final uri = Uri.parse(url);
-    try {
-      await launchUrl(uri);
-    } catch (e) {
+    if (!await launchUrl(uri, mode: LaunchMode.platformDefault)) {
       debugPrint('Could not launch $url');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final projectUrl = widget.project['html_url'] as String?;
+    final projectName = widget.project['name'] as String?;
+    final projectDescription = widget.project['description'] as String?;
+    final projectLanguage = widget.project['language'] as String?;
+
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () {
-          if (widget.project['html_url'] != null) {
-            _launchURL(widget.project['html_url']);
+          if (projectUrl != null) {
+            _launchURL(projectUrl);
           }
         },
         child: AnimatedContainer(
@@ -259,17 +316,17 @@ class _ProjectCardState extends State<ProjectCard> {
                     size: 40,
                     color: Theme.of(context).primaryColor,
                   ),
-                  if (widget.project['html_url'] != null)
+                  if (projectUrl != null)
                     IconButton(
                       icon: const Icon(Icons.open_in_new),
                       color: isHovered ? Theme.of(context).primaryColor : null,
-                      onPressed: () => _launchURL(widget.project['html_url']),
+                      onPressed: () => _launchURL(projectUrl),
                     ),
                 ],
               ),
               const SizedBox(height: 24),
               Text(
-                widget.project['name'] ?? 'Project Name',
+                projectName ?? 'Project Name',
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                   fontSize: 20,
                   color: isHovered ? Theme.of(context).primaryColor : null,
@@ -280,7 +337,7 @@ class _ProjectCardState extends State<ProjectCard> {
               const SizedBox(height: 16),
               Expanded(
                 child: Text(
-                  widget.project['description'] ?? 'No description provided.',
+                  projectDescription ?? 'No description provided.',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Theme.of(
                       context,
@@ -291,9 +348,9 @@ class _ProjectCardState extends State<ProjectCard> {
                 ),
               ),
               const SizedBox(height: 16),
-              if (widget.project['language'] != null)
+              if (projectLanguage != null)
                 Text(
-                  widget.project['language'],
+                  projectLanguage,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontFamily: 'monospace',
                     color: Theme.of(context).primaryColor,
