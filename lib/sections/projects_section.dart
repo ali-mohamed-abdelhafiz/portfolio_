@@ -158,7 +158,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
             child: ElevatedButton.icon(
               onPressed: () async {
                 final uri = Uri.parse(
-                  'https://github.com/ali-mohamed-abdelhafiz?tab=repositories',
+                  'https://github.com/AliMoo-space',
                 );
                 try {
                   await launchUrl(uri, mode: LaunchMode.externalApplication);
