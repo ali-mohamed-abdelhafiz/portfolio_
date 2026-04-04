@@ -26,7 +26,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     try {
       final response = await http.get(
         Uri.parse(
-          'https://api.github.com/users/ali-mohamed-abdelhafiz/repos?sort=updated',
+          'https://api.github.com/users/AliMoo-space/repos?sort=updated',
         ),
       );
       if (response.statusCode == 200) {
@@ -158,7 +158,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
             child: ElevatedButton.icon(
               onPressed: () async {
                 final uri = Uri.parse(
-                  'https://github.com/ali-mohamed-abdelhafiz?tab=repositories',
+                  'https://github.com/AliMoo-space?tab=repositories',
                 );
                 try {
                   await launchUrl(uri, mode: LaunchMode.externalApplication);
