@@ -26,7 +26,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     try {
       final response = await http.get(
         Uri.parse(
-          'https://api.github.com/users/ali-mohamed-abdelhafiz/repos?sort=updated',
+          'https://github.com/AliMoo-space',
         ),
       );
       if (response.statusCode == 200) {
