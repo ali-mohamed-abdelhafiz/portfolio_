@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../theme/theme_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/theme/theme_cubit.dart';
 
 class NavBar extends StatelessWidget {
   final VoidCallback onHeroTap;
@@ -20,7 +20,7 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = context.watch<ThemeCubit>().state;
     final isDesktop = MediaQuery.of(context).size.width > 800;
 
     return Container(
@@ -79,10 +79,10 @@ class NavBar extends StatelessWidget {
             children: [
               IconButton(
                 icon: Icon(
-                  themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                  isDarkMode ? Icons.light_mode : Icons.dark_mode,
                 ),
                 onPressed: () {
-                  themeProvider.toggleTheme();
+                  context.read<ThemeCubit>().toggleTheme();
                 },
                 color: Theme.of(context).textTheme.bodyLarge?.color,
               ),

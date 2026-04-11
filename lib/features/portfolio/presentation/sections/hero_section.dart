@@ -240,9 +240,7 @@ class HeroSection extends StatelessWidget {
                   size: 28,
                   color: Theme.of(context).textTheme.bodyLarge?.color,
                 ),
-                onPressed: () => _launchURL(
-                  'https://github.com/ali-mohamed-abdelhafiz?tab=repositories',
-                ),
+                onPressed: () => _launchURL('https://github.com/AliMoo-space'),
               ),
             ],
           ).animate(delay: 1300.ms).fade(duration: 600.ms).slideY(begin: 0.2),
